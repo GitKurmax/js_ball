@@ -1,23 +1,14 @@
-document.body.addEventListener('click', function(event) {
+document.querySelector('#field').addEventListener('click', function(event) {
   const ball = document.querySelector('#ball');
   const field = document.querySelector('#field');
   let fieldCoords = field.getBoundingClientRect();
-  console.log(+getComputedStyle(field).borderWidth.slice(0, -2));
-  let ballTop = event.clientY - fieldCoords.top - +getComputedStyle(field).borderWidth.slice(0, -2) - ball.offsetHeight/2;
-  let ballLeft = event.clientX - fieldCoords.left - +getComputedStyle(field).borderWidth.slice(0, -2) - ball.offsetWidth/2;  
+  let borderWidth = field.offsetWidth - field.clientWidth;
+  let ballTop = event.clientY - fieldCoords.top - borderWidth/2 - ball.offsetHeight/2;
+  let ballLeft = event.clientX - fieldCoords.left - borderWidth/2 - ball.offsetWidth/2;  
   
-  if (event.target !== field) {
-    return;
-  }
-  
-  if (ballTop < 0) {
-    ballTop = 0;
-  }
-  
-  if (ballLeft < 0) {
-    ballLeft = 0;
-  }
-  
+  ballTop = Math.max(ballTop, 0);
+  ballLeft = Math.max(ballLeft, 0);
+
   if (ballTop + ball.offsetHeight > field.offsetHeight + +getComputedStyle(ball).marginTop.slice(0, -2)) {
     ballTop = field.offsetHeight + +getComputedStyle(ball).marginTop.slice(0, -2) - ball.offsetHeight;
   }
